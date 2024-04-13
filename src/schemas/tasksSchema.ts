@@ -4,9 +4,9 @@ import { CategoriesSchema } from "./categoriesSchemas";
 export const TasksSchema = z.object({
     id: z.number().positive(),
     title: z.string().min(3),
-    content: z.string().min(3),
-    finished: z.boolean(),
-    categoryId: z.number().nullish(),
+    content: z.string(),
+    finished: z.boolean().default(false),
+    categoryId: z.number().positive().nullish(),
 });
 
 export const CreateTaksSchema = TasksSchema.omit({id: true, finished: true});

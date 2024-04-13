@@ -7,11 +7,10 @@ class TasksControllers{
         return res.status(201).json(task)
     }
 
-    public readingTasksList = async ({query}: Request, res: Response): Promise<Response>=>{
-        const search = query.search ? String(query.search) : undefined; 
-        const listTasks = await tasksServices.readingList(search);
+    public readingTasksList = async (req: Request, res: Response): Promise<Response>=>{
+        const category = req.query.category ? String(req.query.category) : undefined; 
+        const listTasks = await tasksServices.readingList(category);
         return res.status(200).json(listTasks);
-    
     }
 
     public readingTask = async (req: Request, res: Response): Promise<Response>=>{

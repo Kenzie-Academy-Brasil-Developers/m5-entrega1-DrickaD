@@ -9,10 +9,9 @@ class TasksServices{
         return newTask;
     };
 
-    public readingList = async(search?: string): Promise<Array<TGetTasks>> =>{
+    public readingList = async(category?: string): Promise<Array<TGetTasks>> =>{
         const listTasks = await prisma.task.findMany({
-            where: {category: {name: {contains: search, mode:"insensitive"}}}, 
-            orderBy: { id: "asc" }, 
+            where: {category: {name: {contains: category, mode:"insensitive"}}},  
             include: {category: true}
         });
            const tasksList = BodyGetTasksSchema.array().parse(listTasks);

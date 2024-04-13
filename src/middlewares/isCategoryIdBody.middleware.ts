@@ -4,10 +4,14 @@ import { AppError } from "../error/appError";
 
 class IsCategoryIdBody{
     public idExists = async (req: Request, res: Response, next: NextFunction) => {
+        if(!req.body.categoryId){
+            return next();
+        }
+
         const idCategory =  Number(req.body.categoryId);     
         const currentCategory = await prisma.task.findFirst({
-            where: {category: {id: idCategory}},
-            include:{category: true}});
+            where:{id: idCategory}
+        });
 
         if(!currentCategory){
             throw new AppError(404, "Category not found.");
