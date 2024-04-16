@@ -7,16 +7,16 @@ class TasksControllers{
         return res.status(201).json(task)
     }
 
-    public readingTasksList = async (req: Request, res: Response): Promise<Response>=>{
-        const category = req.query.category ? String(req.query.category) : undefined; 
+    public readingTasksList = async ({query}: Request, res: Response): Promise<Response>=>{
+        const category= query.category? String(query.category) : undefined; 
         const listTasks = await tasksServices.readingList(category);
         return res.status(200).json(listTasks);
     }
 
-    public readingTask = async (req: Request, res: Response): Promise<Response>=>{
-        const taskId = Number(req.params.id);
+    public readingTask = async ({params}: Request, res: Response): Promise<Response>=>{
+        const taskId = Number(params.id);
         const getTask = await tasksServices.readingOne(taskId);
-        return res.status(200).json(getTask)
+        return res.status(200).json(getTask);
     }
 
     public updateTask = async (req: Request, res: Response): Promise<Response>=>{

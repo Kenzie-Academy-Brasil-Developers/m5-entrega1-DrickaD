@@ -8,8 +8,9 @@ class IsCategoryIdBody{
             return next();
         }
 
-        const idCategory =  Number(req.body.categoryId);     
-        const currentCategory = await prisma.task.findFirst({
+        const idCategory =  Number(req.body.categoryId);   
+          
+        const currentCategory = await prisma.category.findFirst({
             where:{id: idCategory}
         });
 

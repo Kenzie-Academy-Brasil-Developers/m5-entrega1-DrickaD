@@ -1,4 +1,4 @@
-import { ValidateRequest, isTaskIdValid, isCategoryIdBody} from './../middlewares/index';
+import { ValidateRequest, isTaskIdValid, isCategoryIdBody, isCategoryNameQuery} from './../middlewares/index';
 import { Router } from "express";
 import { tasksControllers } from "../controllers/index";
 import { CreateTaksSchema, UpdateTaskSchema } from "../schemas/index";
@@ -11,6 +11,7 @@ isCategoryIdBody.idExists,
 tasksControllers.createTask);
 
 tasksRouter.get("/",
+isCategoryNameQuery.nameExists,
 tasksControllers.readingTasksList);
 
 tasksRouter.get("/:id",

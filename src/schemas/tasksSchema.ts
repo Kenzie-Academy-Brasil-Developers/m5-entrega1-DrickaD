@@ -11,6 +11,7 @@ export const TasksSchema = z.object({
 
 export const CreateTaksSchema = TasksSchema.omit({id: true, finished: true});
 
-export const UpdateTaskSchema = TasksSchema.omit({id: true, finished: true}).partial();
+export const UpdateTaskSchema = TasksSchema.omit({id: true}).partial();
 
 export const BodyGetTasksSchema = TasksSchema.omit({categoryId: true}).extend({category: CategoriesSchema});
+
