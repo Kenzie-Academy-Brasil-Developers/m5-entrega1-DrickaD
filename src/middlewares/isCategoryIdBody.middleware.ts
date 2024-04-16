@@ -17,6 +17,7 @@ class IsCategoryIdBody{
         if(!currentCategory){
             throw new AppError(404, "Category not found.");
         };
+        
         res.locals.categoryCurrent = currentCategory;
         return next();
     }

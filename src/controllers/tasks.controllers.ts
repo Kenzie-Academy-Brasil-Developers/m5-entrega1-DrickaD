@@ -8,7 +8,7 @@ class TasksControllers{
     }
 
     public readingTasksList = async ({query}: Request, res: Response): Promise<Response>=>{
-        const category= query.category? String(query.category) : undefined; 
+        const category = query.category? String(query.category) : undefined;
         const listTasks = await tasksServices.readingList(category);
         return res.status(200).json(listTasks);
     }

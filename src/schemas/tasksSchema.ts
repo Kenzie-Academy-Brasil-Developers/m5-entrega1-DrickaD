@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CategoriesSchema } from "./categoriesSchemas";
+import { CategoriesSchema, GetCategoryList } from "./categoriesSchemas";
 
 export const TasksSchema = z.object({
     id: z.number().positive(),
@@ -13,5 +13,5 @@ export const CreateTaksSchema = TasksSchema.omit({id: true, finished: true});
 
 export const UpdateTaskSchema = TasksSchema.omit({id: true}).partial();
 
-export const BodyGetTasksSchema = TasksSchema.omit({categoryId: true}).extend({category: CategoriesSchema});
+export const BodyGetTasksSchema = TasksSchema.omit({categoryId: true}).extend({category: GetCategoryList});
 

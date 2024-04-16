@@ -1,3 +1,5 @@
+import { category } from './../tests/mocks/category.mocks';
+import { getTaskList } from './../tests/mocks/tasks.mocks';
 import { prisma } from "../database/prisma";
 import { TCreateTask, TGetTasks, TTaskBody, TUpdateTask } from "../interfaces/index";
 import { BodyGetTasksSchema, TasksSchema } from '../schemas/tasksSchema';
@@ -10,13 +12,20 @@ class TasksServices{
     };
 
     public readingList = async(category?: string): Promise<Array<TGetTasks>> =>{
-        
+
+        if(!category){
+            const getTaskList = await prisma.task.findMany({include: {category: true}});
+            const tasksList = BodyGetTasksSchema.array().parse(getTaskList);
+            return tasksList;
+        }
+
         const getTaskList = await prisma.task.findMany({
-            where: {category: {name: {contains: category, mode:"insensitive"}}},  
+            where: {category: {name: {equals: category, mode:"insensitive"}}},  
             include: {category: true}
         });
         const tasksList = BodyGetTasksSchema.array().parse(getTaskList);
-        return tasksList;
+        return tasksList;  
+        
     };
 
     public readingOne = async(taskId: number ): Promise<TGetTasks> =>{

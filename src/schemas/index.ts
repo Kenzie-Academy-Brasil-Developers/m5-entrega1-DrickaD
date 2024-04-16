@@ -4,4 +4,4 @@ export {
     UpdateTaskSchema,
     BodyGetTasksSchema} from "./tasksSchema";
 
-export { CategoriesSchema, CreateCategorieSchema } from "./categoriesSchemas";
+export { CategoriesSchema, CreateCategorieSchema, GetCategoryList } from "./categoriesSchemas";

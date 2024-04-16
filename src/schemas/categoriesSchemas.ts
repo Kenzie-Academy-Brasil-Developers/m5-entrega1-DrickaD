@@ -5,4 +5,5 @@ export const CategoriesSchema = z.object({
     name: z.string().min(3),
 });
 
-export const CreateCategorieSchema = CategoriesSchema.omit({id: true})
+export const CreateCategorieSchema = CategoriesSchema.omit({id: true});
+export const GetCategoryList = CategoriesSchema.nullish();

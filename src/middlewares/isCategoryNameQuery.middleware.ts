@@ -4,12 +4,13 @@ import { AppError } from "../error/appError";
 
 class IsCategoryNameQuery{
     public nameExists = async ({query}: Request, res: Response, next: NextFunction) => {
+        const category = query.category;
 
-        if(!query.category){
+        if(!category){
             return next();
         } 
 
-        const nameCategory =  String(query.category);
+        const nameCategory =  String(category);
         const currentCategory = await prisma.category.findFirst({where: {name: nameCategory}});
     
         if(!currentCategory){
