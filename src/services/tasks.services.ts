@@ -1,9 +1,11 @@
 
+import { injectable } from "tsyringe";
 import { prisma } from "../database/prisma";
 import { TCreateTask, TGetTasks, TTaskBody, TUpdateTask } from "../interfaces/index";
 import { BodyGetTasksSchema, TasksSchema } from '../schemas/tasksSchema';
 
-class TasksServices{
+@injectable()
+export class TasksServices{
     public create = async (payload: TCreateTask): Promise<TTaskBody> =>{
         const task = await prisma.task.create({data: payload});
         const newTask = TasksSchema.parse(task); 
@@ -43,4 +45,3 @@ class TasksServices{
        return await prisma.task.delete({where: {id: taskId}});
     };
 }
-export const tasksServices = new TasksServices();

@@ -1,3 +1,3 @@
 export { UserControllers } from "./users.controllers";
-export { tasksControllers } from "./tasks.controllers";
-export { categoriesControllers } from "./categories.controllers";
+export { TasksControllers } from "./tasks.controllers";
+export { CategoriesControllers } from "./categories.controllers";

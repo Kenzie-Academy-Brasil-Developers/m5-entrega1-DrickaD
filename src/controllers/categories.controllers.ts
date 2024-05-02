@@ -1,16 +1,20 @@
 import { Request, Response } from "express"
-import { categoryServices } from "../services/index";
+import { CategoriesServices } from "../services/index";
+import { inject, injectable } from "tsyringe";
 
-class CategoriesControllers{
+@injectable()
+export class CategoriesControllers{
+
+    constructor(@inject("categoriesServices") private categoriesServices: CategoriesServices){};
+
     public createCategory = async (req: Request, res: Response): Promise<Response>=>{
-        const category = await categoryServices.create(req.body)
+        const category = await this.categoriesServices.create(req.body)
         return res.status(201).json(category);
     }
 
     public deleteCategory = async ({params}: Request, res: Response): Promise<Response>=>{
         const categoryId = Number(params.id);
-        await categoryServices.delete(categoryId);
+        await this.categoriesServices.delete(categoryId);
         return res.status(204).json();
     }
 }
-export const categoriesControllers = new CategoriesControllers();

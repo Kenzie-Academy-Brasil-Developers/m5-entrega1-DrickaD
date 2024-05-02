@@ -1,3 +1,4 @@
 export { UserServices } from "./users.services";
-export { tasksServices } from "./tasks.services";
-export { categoryServices } from "./categories.services";
+export { TasksServices } from "./tasks.services";
+export { CategoriesServices} from "./categories.services";
+
