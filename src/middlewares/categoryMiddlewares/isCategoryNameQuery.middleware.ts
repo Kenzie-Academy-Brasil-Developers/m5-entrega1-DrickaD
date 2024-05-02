@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { prisma } from "../database/prisma";
-import { AppError } from "../error/appError";
+import { prisma } from "../../database/prisma";
+import { AppError } from "../../error/appError";
 
 class IsCategoryNameQuery{
     public nameExists = async ({query}: Request, res: Response, next: NextFunction) => {

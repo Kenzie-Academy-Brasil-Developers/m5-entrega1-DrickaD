@@ -1,5 +1,4 @@
-import { category } from './../tests/mocks/category.mocks';
-import { getTaskList } from './../tests/mocks/tasks.mocks';
+
 import { prisma } from "../database/prisma";
 import { TCreateTask, TGetTasks, TTaskBody, TUpdateTask } from "../interfaces/index";
 import { BodyGetTasksSchema, TasksSchema } from '../schemas/tasksSchema';

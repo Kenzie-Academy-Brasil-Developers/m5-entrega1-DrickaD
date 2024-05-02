@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { prisma } from "../database/prisma";
-import { AppError } from "../error/appError";
+import { prisma } from "../../database/prisma";
+import { AppError } from "../../error/appError";
 
 class IsTaskIdValid{
     public idExists = async ({params}: Request, res: Response, next: NextFunction) => {

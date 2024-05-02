@@ -15,12 +15,27 @@ model Task{
   title String 
   content String  
   finished Boolean @default(false)
-  categoryId Int? 
+  categoryId Int?
+  userId Int?
   category Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
 }
 
 model Category{
   id Int @id @default(autoincrement())
   name String
+  userId Int?
   tasks Task[]
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
+model User{
+  id Int @id @default(autoincrement())
+  name String
+  email String @unique
+  password String
+  tasks Task[]
+  categories Category[]
+}
+

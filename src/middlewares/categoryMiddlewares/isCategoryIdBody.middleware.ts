@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { prisma } from "../database/prisma";
-import { AppError } from "../error/appError";
+import { prisma } from "../../database/prisma";
+import { AppError } from "../../error/appError";
 
 class IsCategoryIdBody{
     public idExists = async (req: Request, res: Response, next: NextFunction) => {
