@@ -1,4 +1,12 @@
-import { ValidateRequest, isTaskIdValid, isCategoryIdBody, isCategoryNameQuery} from './../middlewares/index';
+import {
+    ValidateRequest,
+    isTaskIdValid,
+    isCategoryIdBody,
+    isCategoryNameQuery,
+    authToken,
+    authUserCategory,
+    isTasksOwner} from './../middlewares/index';
+
 import { Router } from "express";
 import { TasksControllers } from "../controllers/index";
 import { CreateTaksSchema, UpdateTaskSchema } from "../schemas/index";
@@ -11,23 +19,34 @@ container.registerSingleton("tasksServices", TasksServices);
 const tasksControllers = container.resolve(TasksControllers);
 
 tasksRouter.post("/",
+authToken.isAuthenticated,
 ValidateRequest.execute({body: CreateTaksSchema}),
+authUserCategory.idCategoryUser,
+authToken.idBodyOwner,
 isCategoryIdBody.idExists, 
 (req, res)=> tasksControllers.createTask(req, res));
 
 tasksRouter.get("/",
-isCategoryNameQuery.nameExists, 
+authToken.isAuthenticated,
+isTasksOwner.listsTaksOwner,
+isCategoryNameQuery.nameExists,
 (req, res)=> tasksControllers.readingTasksList(req, res));
 
 tasksRouter.get("/:id",
-isTaskIdValid.idExists, 
+authToken.isAuthenticated,
+isTaskIdValid.taskExists, 
+authToken.userOwner,
 (req, res)=> tasksControllers.readingTask(req, res));
 
 tasksRouter.patch("/:id",
-isTaskIdValid.idExists, 
+authToken.isAuthenticated,
+isTaskIdValid.taskExists,
+authToken.userOwner,
 ValidateRequest.execute({body: UpdateTaskSchema}),
 (req, res)=> tasksControllers.updateTask(req, res));
 
 tasksRouter.delete("/:id",
-isTaskIdValid.idExists,
+authToken.isAuthenticated,
+authToken.userOwner,
+isTaskIdValid.taskExists,
 (req, res)=> tasksControllers.deleteTask(req, res));

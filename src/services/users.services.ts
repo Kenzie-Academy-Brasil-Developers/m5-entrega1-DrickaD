@@ -14,6 +14,7 @@ export class UserServices{
         body.password = await hash(body.password, 10);
 
         const user = await prisma.user.create({data: body});
+        
         const newUser = ReturnBodyUserSchema.parse(user);
         return newUser;
     };
@@ -22,10 +23,10 @@ export class UserServices{
         const user = await prisma.user.findFirst({where:{email: body.email}});
 
         if(!user){
-            throw new AppError(status.HTTP_401_UNAUTHORIZED,"Email and password doesn't match")
+            throw new AppError(status.HTTP_401_UNAUTHORIZED, "Email and password doesn't match")
         }
 
-        const passwordMatch = await compare(body.password, user.password)
+        const passwordMatch = await compare(body.password, user.password);
 
         if(!passwordMatch){
             throw new AppError(status.HTTP_401_UNAUTHORIZED, "Email and password doesn't match")
@@ -40,8 +41,8 @@ export class UserServices{
  
         const foundUser = {accessToken, user};
 
-        const loginUser = ReturnBodyUserLoginSchema.parse(foundUser);
+        const userLogin = ReturnBodyUserLoginSchema.parse(foundUser)
 
-        return loginUser;
+        return userLogin;
     } 
 }

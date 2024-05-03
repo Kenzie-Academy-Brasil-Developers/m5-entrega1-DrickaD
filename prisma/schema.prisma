@@ -16,7 +16,7 @@ model Task{
   content String  
   finished Boolean @default(false)
   categoryId Int?
-  userId Int?
+  userId Int
   category Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -25,7 +25,7 @@ model Task{
 model Category{
   id Int @id @default(autoincrement())
   name String
-  userId Int?
+  userId Int
   tasks Task[]
   user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

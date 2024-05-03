@@ -11,4 +11,5 @@ export {
     LoginUserBodyschema,
     ReturnBodyUserLoginSchema,
     ReturnBodyUserSchema,
-    UserAutoLoginBodySchema} from './../schemas/userSchemas';
+    UserAutoLoginBodySchema,
+    TokenSchema} from './../schemas/userSchemas';

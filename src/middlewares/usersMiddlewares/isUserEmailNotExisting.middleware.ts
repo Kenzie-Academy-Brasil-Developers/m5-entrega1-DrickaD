@@ -6,7 +6,9 @@ import { status } from "../../utils/HTTP.statusCode";
 
 class IsUserEmailNotExisting{
     public emailExists = async ({body}: Request, res: Response, next: NextFunction) => {
+
         const userEmail =  body.email
+        
         const currentUser = await prisma.user.findFirst({where: {email: userEmail}});
         
         if(!currentUser){

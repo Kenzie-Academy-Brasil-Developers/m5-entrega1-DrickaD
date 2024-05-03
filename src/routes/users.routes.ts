@@ -12,17 +12,16 @@ container.registerSingleton("userServices", UserServices);
 const userControllers = container.resolve(UserControllers);
 
 usersRouter.post("/",
-ValidateRequest.execute({body: BodyCreateUserSchema}),
 isUserEmailExisting.emailExists,
+ValidateRequest.execute({body: BodyCreateUserSchema}),
 (req, res)=> userControllers.register(req, res));
 
 usersRouter.post("/login",
-ValidateRequest.execute({body: LoginUserBodyschema}),
 isUserEmailNotExisting.emailExists,
+ValidateRequest.execute({body: LoginUserBodyschema}),
 (req, res)=> userControllers.login(req, res));
 
-usersRouter.get("/profile",
+usersRouter.get("/profile/",
 authToken.isAuthenticated,
-authToken.isRecourceOwner,
 (req, res)=> userControllers.autoLogin(req, res));
 

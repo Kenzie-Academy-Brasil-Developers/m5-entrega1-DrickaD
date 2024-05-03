@@ -1,10 +1,19 @@
-export { isUserEmailNotExisting } from "./usersMiddlewares/isUserEmailNotExisting.middleware";
-export { authToken } from "./usersMiddlewares/authTokenMiddleware";
-export { isUserEmailExisting } from "./usersMiddlewares/isUserEmailExisting.middleware";
-export { isCategoryNameQuery } from "./categoryMiddlewares/isCategoryNameQuery.middleware";
-export { isIdCategoryParams } from "./categoryMiddlewares/isIdCategoryParams.middleware";
-export { isCategoryIdBody } from "./categoryMiddlewares/isCategoryIdBody.middleware";
+export { isUserEmailNotExisting, isUserEmailExisting } from "./usersMiddlewares/index.user";
+
+export {
+    authUserCategory,
+    isIdCategoryParams,
+   } from "./categoryMiddlewares/index.category";
+
+export { authToken } from "./authTokenMiddleware";
+
+export {
+    isTaskIdValid,
+    isTasksOwner,
+    isCategoryIdBody,
+    isCategoryNameQuery, } from "./tasksMiddlewares/index.tasks";
+
 export { ValidateRequest } from "./validateRequest.middleware";
-export { isTaskIdValid } from "./tasksMiddlewares/isTaskIdValid.middleware";
+
 
 
