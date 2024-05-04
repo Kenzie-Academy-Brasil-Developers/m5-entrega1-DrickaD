@@ -4,6 +4,8 @@
     "experimentalDecorators": true,              
     "emitDecoratorMetadata": true, 
     "module": "commonjs",
+    "rootDir": "./src",
+    "outDir": "./dist",   
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,

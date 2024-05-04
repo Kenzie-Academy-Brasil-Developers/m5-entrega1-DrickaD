@@ -7,4 +7,4 @@ export const CategoriesSchema = z.object({
 });
 
 export const CreateCategorieSchema = CategoriesSchema.omit({id: true});
-export const GetCategoryList = CategoriesSchema.nullish();
+export const GetCategoryList = CategoriesSchema.omit({userId: true}).nullish();
