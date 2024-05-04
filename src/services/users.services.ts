@@ -12,9 +12,7 @@ import { sign } from 'jsonwebtoken';
 export class UserServices{
     public register = async (body: TBodyCreateUser): Promise<TReturnBodyUser> =>{
         body.password = await hash(body.password, 10);
-
         const user = await prisma.user.create({data: body});
-        
         const newUser = ReturnBodyUserSchema.parse(user);
         return newUser;
     };

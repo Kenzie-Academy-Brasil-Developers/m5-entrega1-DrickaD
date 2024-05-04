@@ -4,7 +4,7 @@ export const UserSchema = z.object({
     id: z.number().positive(),
     name: z.string().min(3),
     email: z.string().min(3).email(),
-    password: z.string().min(8)
+    password: z.string().min(4)
 });
 
 export const BodyCreateUserSchema = UserSchema.omit({id: true});

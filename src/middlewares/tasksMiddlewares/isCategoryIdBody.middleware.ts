@@ -2,24 +2,25 @@ import { Request, Response, NextFunction } from "express";
 import { prisma } from "../../database/prisma";
 import { AppError } from "../../error/appError";
 
-class IsCategoryIdBody{
-    public idExists = async (req: Request, res: Response, next: NextFunction) => {
+class IsCategoryIdBodyExists{
+    public execute = async (req: Request, res: Response, next: NextFunction) : Promise<void>=> {
         if(!req.body.categoryId){
             return next();
         }
-
+        
         const idCategory =  Number(req.body.categoryId);   
           
-        const currentCategory = await prisma.category.findFirst({
+        const currentCategoryBody = await prisma.category.findFirst({
             where:{id: idCategory}
         });
 
-        if(!currentCategory){
+        if(!currentCategoryBody){
             throw new AppError(404, "Category not found.");
         };
         
-        res.locals.categoryCurrent = currentCategory;
+        res.locals= {...res.locals, currentCategoryBody};
+
         return next();
     }
 }
-export const isCategoryIdBody = new IsCategoryIdBody();
+export const isCategoryIdBodyExists = new IsCategoryIdBodyExists();

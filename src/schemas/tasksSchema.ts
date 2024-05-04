@@ -10,9 +10,9 @@ export const TasksSchema = z.object({
     userId:  z.number().positive()
 });
 
+export const ReturnTaskSchema = TasksSchema.omit({userId: true});
 export const CreateTaksSchema = TasksSchema.omit({id: true, finished: true});
-
+export const CreateTaksSchemaBody = TasksSchema.omit({id: true, finished: true, userId: true});
 export const UpdateTaskSchema = TasksSchema.omit({id: true, userId: true}).partial();
-
 export const BodyGetTasksSchema = TasksSchema.omit({categoryId: true}).extend({category: GetCategoryList});
 

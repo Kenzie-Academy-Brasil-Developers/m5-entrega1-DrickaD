@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import { prisma } from "../../database/prisma";
 import { AppError } from "../../error/appError";
+import { status } from "../../utils/HTTP.statusCode";
 
 class IsCategoryNameQuery{
-    public nameExists = async ({query}: Request, res: Response, next: NextFunction) => {
+    public execute = async ({query}: Request, res: Response, next: NextFunction) => {
         const category = query.category;
         
         if(!category){
@@ -11,7 +12,7 @@ class IsCategoryNameQuery{
         } 
 
         const {currentUser} = res.locals;
-      
+        
         const nameCategory =  String(category);
  
         const categoryUser = await prisma.category.findFirst({
@@ -21,10 +22,10 @@ class IsCategoryNameQuery{
         }});
 
         if(!categoryUser){
-            throw new AppError(404, "Category not found.");
+            throw new AppError(status.HTTP_404_NOT_FOUND, "Category not found.");
         };
 
-        res.locals = {... res.locals, categoryUser};
+        res.locals = {...res.locals, categoryUser}
 
         return next();
 

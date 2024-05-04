@@ -1,7 +1,13 @@
 import { Router } from "express";
-import { CategoriesControllers } from "../controllers";
 import { CreateCategorieSchema} from "../schemas/categoriesSchemas";
-import { ValidateRequest, authToken, authUserCategory, isIdCategoryParams } from "../middlewares/index";
+import {
+    ValidateRequest,
+    authToken,
+    isIdCategoryParams,
+    isUserCategoryIdOwner,
+    userIdBodyOwnerToken } from "../middlewares/index";
+
+import { CategoriesControllers } from "../controllers";
 import { CategoriesServices } from "../services";
 import { container } from "tsyringe";
 
@@ -13,13 +19,12 @@ const categoriesControllers = container.resolve(CategoriesControllers);
 categoriesRouter.post("/",
 authToken.isAuthenticated,
 ValidateRequest.execute({body: CreateCategorieSchema}),
-authToken.idBodyOwner,
+userIdBodyOwnerToken.execute,
 (req, res)=> categoriesControllers.createCategory(req, res));
 
 categoriesRouter.delete("/:id", 
 authToken.isAuthenticated,
-authToken.userOwnerCategory,
 isIdCategoryParams.idExists,
-authUserCategory.idCategoryUser,
+isUserCategoryIdOwner.execute,
 (req, res)=> categoriesControllers.deleteCategory(req, res));
 

@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import { prisma } from "../../database/prisma";
 import { AppError } from "../../error/appError";
+import { status } from "../../utils/HTTP.statusCode";
 
 class IsTaskIdValid{
-    public taskExists = async ({params}: Request, res: Response, next: NextFunction): Promise<void> => {
+    public execute = async ({params}: Request, res: Response, next: NextFunction): Promise<void> => {
         const taskId =  Number(params.id); 
 
         const currentTask = await prisma.task.findFirst({
@@ -11,11 +12,9 @@ class IsTaskIdValid{
         });
         
         if(!currentTask){
-            throw new AppError(404, "Task not found.");
+            throw new AppError(status.HTTP_404_NOT_FOUND, "Task not found.");
         };
-    
         res.locals = {...res.locals, currentTask};
-
         return next();
     }
  

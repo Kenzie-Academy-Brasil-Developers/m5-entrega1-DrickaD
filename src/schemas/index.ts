@@ -1,6 +1,8 @@
 export {
     TasksSchema,
+    ReturnTaskSchema,
     CreateTaksSchema,
+    CreateTaksSchemaBody,
     UpdateTaskSchema,
     BodyGetTasksSchema} from "./tasksSchema";
 

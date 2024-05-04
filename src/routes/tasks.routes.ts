@@ -1,15 +1,16 @@
 import {
     ValidateRequest,
     isTaskIdValid,
-    isCategoryIdBody,
     isCategoryNameQuery,
     authToken,
-    authUserCategory,
-    isTasksOwner} from './../middlewares/index';
+    userOwnerTask,
+    isCategoryIdBodyExists,
+    isOwnerTaskList,
+    userOwnerCategoryBody} from './../middlewares/index';
 
 import { Router } from "express";
 import { TasksControllers } from "../controllers/index";
-import { CreateTaksSchema, UpdateTaskSchema } from "../schemas/index";
+import { CreateTaksSchemaBody, UpdateTaskSchema } from "../schemas/index";
 import { TasksServices } from '../services';
 import { container } from 'tsyringe';
 
@@ -20,33 +21,34 @@ const tasksControllers = container.resolve(TasksControllers);
 
 tasksRouter.post("/",
 authToken.isAuthenticated,
-ValidateRequest.execute({body: CreateTaksSchema}),
-authUserCategory.idCategoryUser,
-authToken.idBodyOwner,
-isCategoryIdBody.idExists, 
+ValidateRequest.execute({body: CreateTaksSchemaBody}),
+isCategoryIdBodyExists.execute,
+userOwnerCategoryBody.userOwner,
 (req, res)=> tasksControllers.createTask(req, res));
 
 tasksRouter.get("/",
 authToken.isAuthenticated,
-isTasksOwner.listsTaksOwner,
-isCategoryNameQuery.nameExists,
+isCategoryNameQuery.execute,
+isOwnerTaskList.execute,
 (req, res)=> tasksControllers.readingTasksList(req, res));
 
 tasksRouter.get("/:id",
 authToken.isAuthenticated,
-isTaskIdValid.taskExists, 
-authToken.userOwner,
+isTaskIdValid.execute, 
+userOwnerTask.execute,
 (req, res)=> tasksControllers.readingTask(req, res));
 
 tasksRouter.patch("/:id",
-authToken.isAuthenticated,
-isTaskIdValid.taskExists,
-authToken.userOwner,
+authToken.isAuthenticated, 
+isTaskIdValid.execute,
+userOwnerTask.execute, 
+isCategoryIdBodyExists.execute,
+userOwnerCategoryBody.userOwner,
 ValidateRequest.execute({body: UpdateTaskSchema}),
 (req, res)=> tasksControllers.updateTask(req, res));
 
 tasksRouter.delete("/:id",
 authToken.isAuthenticated,
-authToken.userOwner,
-isTaskIdValid.taskExists,
+isTaskIdValid.execute,
+userOwnerTask.execute,
 (req, res)=> tasksControllers.deleteTask(req, res));

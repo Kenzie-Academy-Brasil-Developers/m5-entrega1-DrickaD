@@ -1,6 +1,8 @@
+import { category } from './../tests/mocks/category.mocks';
 import { Request, Response } from "express"
 import { CategoriesServices } from "../services/index";
 import { inject, injectable } from "tsyringe";
+import { status } from '../utils/HTTP.statusCode';
 
 @injectable()
 export class CategoriesControllers{
@@ -9,12 +11,12 @@ export class CategoriesControllers{
 
     public createCategory = async (req: Request, res: Response): Promise<Response>=>{
         const category = await this.categoriesServices.create(req.body)
-        return res.status(201).json(category);
+        return res.status(status.HTTP_201_CREATED).json(category);
     }
 
     public deleteCategory = async ({params}: Request, res: Response): Promise<Response>=>{
-        const categoryId = Number(params.id);
+        const categoryId = Number(params.id)
         await this.categoriesServices.delete(categoryId);
-        return res.status(204).json();
+        return res.status(status.HTTP_204_NO_CONTENT).json();
     }
 }

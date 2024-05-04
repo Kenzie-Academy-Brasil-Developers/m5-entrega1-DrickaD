@@ -9,6 +9,8 @@ export class CategoriesServices{
     };
 
     public delete = async(categoryId: number) =>{
-        return await prisma.category.delete({where: {id: categoryId}});
+        return await prisma.category.delete({
+            where: {id: categoryId}
+        });
     }
 }

@@ -2,7 +2,8 @@
 import { injectable } from "tsyringe";
 import { prisma } from "../database/prisma";
 import { TCreateTask, TGetTasks, TTaskBody, TUpdateTask } from "../interfaces/index";
-import { BodyGetTasksSchema, TasksSchema } from '../schemas/tasksSchema';
+import { BodyGetTasksSchema, ReturnTaskSchema, TasksSchema } from '../schemas/tasksSchema';
+import { TReturnTaskBody } from "../interfaces/tasksInterface";
 
 @injectable()
 export class TasksServices{
@@ -12,7 +13,7 @@ export class TasksServices{
         return newTask;
     };
 
-    public readingList = async( id: number, category?: string): Promise<Array<TGetTasks>> =>{
+    public readingList = async(id: number, category?: string): Promise<Array<TGetTasks>> =>{
 
         if(!category){  
             const getTaskList = await prisma.task.findMany({where: {userId: id}, include: {category: true}});
@@ -24,20 +25,24 @@ export class TasksServices{
             include: {category: true}
         });
 
-        return getTaskList;  
-        
-    };
-
-    public readingOne = async(taskId: number ): Promise<TGetTasks> =>{
-        const currentTask = await prisma.task.findFirst({where:{id: taskId}, include: {category: true}});
-        const readingTask = BodyGetTasksSchema.parse(currentTask); 
-        return readingTask;
+        return getTaskList; 
     };
 
 
-    public update = async(task: TUpdateTask, taskId: number, idUser: number): Promise<TTaskBody>=>{
+    public readingOne = async(taskId: number, id: number) =>{
+
+        const currentTask = await prisma.task.findFirst({
+            include:{category: true},
+            where:{id: taskId, userId: id}
+        });
+
+        return currentTask;
+    };
+
+
+    public update = async(task: TUpdateTask, taskId: number, idUser: number): Promise<TReturnTaskBody>=>{
         const currentTask = await prisma.task.update({where:{id: taskId, userId: idUser}, data: task});
-        const taskUpdate = TasksSchema.parse(currentTask);
+        const taskUpdate = ReturnTaskSchema.parse(currentTask);
         return taskUpdate;
     };
 
